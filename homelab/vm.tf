@@ -7,8 +7,8 @@ resource "proxmox_virtual_environment_vm" "vm" {
   count       = var.vm_count
   name        = format("vm-%02d", count.index + 1)
   migrate     = false
-  description = "Managed by OpenTofu"
-  #tags        = ["opentofu", "test"]
+  description = "Managed by Terraform"
+  #tags        = ["terraform", "production"]
   on_boot   = true
   node_name = "pve" # Static node name (single-node cluster)
 
