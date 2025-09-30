@@ -1,13 +1,12 @@
-# outputs.tf
-
 output "vm_basic_info" {
-  description = "Basic information about created VMs"
   value = {
-    for vm in proxmox_virtual_environment_vm.vm :
-    vm.name => {
-      id   = vm.id
-      node = vm.node_name
+    control_vms = [for vm in proxmox_virtual_environment_vm.control_vm : {
       name = vm.name
-    }
+      id   = vm.id
+    }]
+    worker_vms = [for vm in proxmox_virtual_environment_vm.worker_vm : {
+      name = vm.name
+      id   = vm.id
+    }]
   }
 }

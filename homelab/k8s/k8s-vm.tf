@@ -1,76 +1,136 @@
-variable "vm_count" {
-  description = "Number of VMs to create"
+variable "control_vm_count" {
+  description = "Number of control VMs to create"
   default     = 3
 }
 
-resource "proxmox_virtual_environment_vm" "vm" {
-  count       = var.vm_count
-  name        = format("vm-%02d", count.index + 1)
+variable "worker_vm_count" {
+  description = "Number of worker VMs to create"
+  default     = 3
+}
+
+resource "proxmox_virtual_environment_vm" "control_vm" {
+  count       = var.control_vm_count
+  name        = format("control-%02d", count.index + 1)
   migrate     = false
   description = "Managed by Terraform"
-  #tags        = ["terraform", "production"]
-  on_boot   = true
-  node_name = "pve" # Static node name (single-node cluster)
+  on_boot     = true
+  node_name   = "pve"
 
   clone {
     vm_id     = "100"
-    node_name = "pve" # Source node (matches target node here)
+    node_name = "pve"
     retries   = 2
   }
 
   agent {
-    enabled = true # Required for proper clipboard integration
+    enabled = true
   }
 
   operating_system {
-    type = "l26" # Linux 2.6+ kernel (modern Linux OS)
+    type = "l26"
   }
 
   cpu {
     cores = 8
-    type  = "host" # Use host CPU type for better performance
-    numa  = true   # Enable NUMA allocation
+    type  = "host"
+    numa  = true
   }
 
   memory {
-    dedicated = 8192 # 4GB RAM
+    dedicated = 8192
   }
 
   vga {
-    type   = "std" # Changed from 'serial0' to enable VNC+clipboard
-    memory = 16    # Increased from 4 to recommended minimum
+    type   = "std"
+    memory = 16
   }
-
-
-  #  disk {
-  #    size         = "40" # 40GB disk
-  #    interface    = "virtio0"
-  #    datastore_id = "local"
-  #    file_format  = "raw" # Raw format for better performance
-  #  }
 
   network_device {
     bridge = "vmbr0"
-    model  = "virtio" # VirtIO network interface for better performance
+    model  = "virtio"
   }
 
   initialization {
     datastore_id = "local"
     ip_config {
       ipv4 {
-        address = "dhcp" # Using DHCP for IP assignment
+        address = "dhcp"
       }
     }
     dns {
       servers = [
-        "77.88.8.8", # Yandex DNS
-        "8.8.8.8"    # Google DNS
+        "77.88.8.8",
+        "8.8.8.8"
       ]
     }
     user_account {
       username = "tenda"
       keys = [
-        var.ssh_public_key # Ensure this variable is defined elsewhere
+        var.ssh_public_key
+      ]
+    }
+  }
+}
+
+resource "proxmox_virtual_environment_vm" "worker_vm" {
+  count       = var.worker_vm_count
+  name        = format("worker-%02d", count.index + 1)
+  migrate     = false
+  description = "Managed by Terraform"
+  on_boot     = true
+  node_name   = "pve"
+
+  clone {
+    vm_id     = "100"
+    node_name = "pve"
+    retries   = 2
+  }
+
+  agent {
+    enabled = true
+  }
+
+  operating_system {
+    type = "l26"
+  }
+
+  cpu {
+    cores = 8
+    type  = "host"
+    numa  = true
+  }
+
+  memory {
+    dedicated = 8192
+  }
+
+  vga {
+    type   = "std"
+    memory = 16
+  }
+
+  network_device {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+
+  initialization {
+    datastore_id = "local"
+    ip_config {
+      ipv4 {
+        address = "dhcp"
+      }
+    }
+    dns {
+      servers = [
+        "77.88.8.8",
+        "8.8.8.8"
+      ]
+    }
+    user_account {
+      username = "tenda"
+      keys = [
+        var.ssh_public_key
       ]
     }
   }
