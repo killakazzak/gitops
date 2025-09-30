@@ -1,0 +1,66 @@
+{
+  "groups": {
+    "node_pve": [
+      "control-03",
+      "control-02",
+      "control-01",
+      "worker-02",
+      "worker-01",
+      "worker-03"
+    ],
+    "status_running": [
+      "control-03",
+      "control-02",
+      "control-01",
+      "worker-02",
+      "worker-01",
+      "worker-03"
+    ],
+    "all": [
+      "control-03",
+      "control-02",
+      "control-01",
+      "worker-02",
+      "worker-01",
+      "worker-03"
+    ]
+  },
+  "host_vars": {
+    "control-03": {
+      "ansible_host": "unknown",
+      "proxmox_node": "pve",
+      "proxmox_vmid": 103,
+      "proxmox_status": "running"
+    },
+    "control-02": {
+      "ansible_host": "unknown",
+      "proxmox_node": "pve",
+      "proxmox_vmid": 101,
+      "proxmox_status": "running"
+    },
+    "control-01": {
+      "ansible_host": "unknown",
+      "proxmox_node": "pve",
+      "proxmox_vmid": 106,
+      "proxmox_status": "running"
+    },
+    "worker-02": {
+      "ansible_host": "unknown",
+      "proxmox_node": "pve",
+      "proxmox_vmid": 102,
+      "proxmox_status": "running"
+    },
+    "worker-01": {
+      "ansible_host": "unknown",
+      "proxmox_node": "pve",
+      "proxmox_vmid": 104,
+      "proxmox_status": "running"
+    },
+    "worker-03": {
+      "ansible_host": "unknown",
+      "proxmox_node": "pve",
+      "proxmox_vmid": 105,
+      "proxmox_status": "running"
+    }
+  }
+}
