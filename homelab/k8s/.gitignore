@@ -1,0 +1,46 @@
+# Terraform/OpenTofu files
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI config
+.terraformrc
+terraform.rc
+
+# Proxmox specific
+# SSH keys and sensitive data
+*.pem
+*.ppk
+*_key
+*_key.pub
+
+# Log files
+*.log
+/var/log/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backup files
+*.bak
+*.backup
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
