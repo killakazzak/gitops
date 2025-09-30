@@ -1,6 +1,6 @@
 variable "vm_count" {
   description = "Number of VMs to create"
-  default     = 2
+  default     = 3
 }
 
 resource "proxmox_virtual_environment_vm" "vm" {
@@ -27,13 +27,13 @@ resource "proxmox_virtual_environment_vm" "vm" {
   }
 
   cpu {
-    cores = 2
+    cores = 8
     type  = "host" # Use host CPU type for better performance
     numa  = true   # Enable NUMA allocation
   }
 
   memory {
-    dedicated = 2048 # 2GB RAM
+    dedicated = 8192 # 4GB RAM
   }
 
   vga {
@@ -42,12 +42,12 @@ resource "proxmox_virtual_environment_vm" "vm" {
   }
 
 
-  disk {
-    size         = "40" # 40GB disk
-    interface    = "virtio0"
-    datastore_id = "local"
-    file_format  = "raw" # Raw format for better performance
-  }
+  #  disk {
+  #    size         = "40" # 40GB disk
+  #    interface    = "virtio0"
+  #    datastore_id = "local"
+  #    file_format  = "raw" # Raw format for better performance
+  #  }
 
   network_device {
     bridge = "vmbr0"
